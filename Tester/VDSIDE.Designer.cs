@@ -1,6 +1,6 @@
 ﻿namespace Tester
 {
-    partial class PowerfulCSharpEditor
+    partial class VDSIDE
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PowerfulCSharpEditor));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VDSIDE));
             this.msMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,13 +65,12 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.tbFind = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.bookmarkPlusButton = new System.Windows.Forms.ToolStripButton();
             this.bookmarkMinusButton = new System.Windows.Forms.ToolStripButton();
+            this.gotoButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsFiles = new FarsiLibrary.Win.FATabStrip();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.sfdMain = new System.Windows.Forms.SaveFileDialog();
             this.ofdMain = new System.Windows.Forms.OpenFileDialog();
@@ -97,11 +96,10 @@
             this.clImage = new System.Windows.Forms.DataGridViewImageColumn();
             this.clName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ilAutocomplete = new System.Windows.Forms.ImageList(this.components);
-            this.gotoButton = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tsFiles = new System.Windows.Forms.TabControl();
             this.msMain.SuspendLayout();
             this.ssMain.SuspendLayout();
             this.tsMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tsFiles)).BeginInit();
             this.cmMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvObjectExplorer)).BeginInit();
             this.SuspendLayout();
@@ -273,7 +271,6 @@
             this.toolStripSeparator5,
             this.tbFind,
             this.toolStripLabel1,
-            this.toolStripSeparator6,
             this.bookmarkPlusButton,
             this.bookmarkMinusButton,
             this.gotoButton});
@@ -439,11 +436,6 @@
             this.toolStripLabel1.Size = new System.Drawing.Size(36, 22);
             this.toolStripLabel1.Text = "Find: ";
             // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
-            // 
             // bookmarkPlusButton
             // 
             this.bookmarkPlusButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -464,6 +456,16 @@
             this.bookmarkMinusButton.Text = "Remove bookmark (Ctrl-Shift-B)";
             this.bookmarkMinusButton.Click += new System.EventHandler(this.bookmarkMinusButton_Click);
             // 
+            // gotoButton
+            // 
+            this.gotoButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.gotoButton.Image = ((System.Drawing.Image)(resources.GetObject("gotoButton.Image")));
+            this.gotoButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.gotoButton.Name = "gotoButton";
+            this.gotoButton.Size = new System.Drawing.Size(55, 22);
+            this.gotoButton.Text = "Goto...";
+            this.gotoButton.Visible = false;
+            // 
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
@@ -479,18 +481,6 @@
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
-            // tsFiles
-            // 
-            this.tsFiles.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tsFiles.Font = new System.Drawing.Font("Tahoma", 8.25F);
-            this.tsFiles.Location = new System.Drawing.Point(175, 49);
-            this.tsFiles.Name = "tsFiles";
-            this.tsFiles.Size = new System.Drawing.Size(594, 258);
-            this.tsFiles.TabIndex = 0;
-            this.tsFiles.Text = "faTabStrip1";
-            this.tsFiles.TabStripItemClosing += new FarsiLibrary.Win.TabStripItemClosingHandler(this.tsFiles_TabStripItemClosing);
-            this.tsFiles.TabStripItemSelectionChanged += new FarsiLibrary.Win.TabStripItemChangedHandler(this.tsFiles_TabStripItemSelectionChanged);
-            // 
             // splitter1
             // 
             this.splitter1.Location = new System.Drawing.Point(172, 49);
@@ -501,13 +491,11 @@
             // 
             // sfdMain
             // 
-            this.sfdMain.DefaultExt = "cs";
-            this.sfdMain.Filter = "C# file(*.cs)|*.cs";
+            this.sfdMain.Filter = "DialogShell File|*.*ds*";
             // 
             // ofdMain
             // 
-            this.ofdMain.DefaultExt = "cs";
-            this.ofdMain.Filter = "C# file(*.cs)|*.cs";
+            this.ofdMain.Filter = "DialogShell File|*.*ds*";
             // 
             // cmMain
             // 
@@ -701,17 +689,16 @@
             this.ilAutocomplete.Images.SetKeyName(1, "app_16x16.png");
             this.ilAutocomplete.Images.SetKeyName(2, "1302166543_virtualbox.png");
             // 
-            // gotoButton
+            // tsFiles
             // 
-            this.gotoButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.gotoButton.Image = ((System.Drawing.Image)(resources.GetObject("gotoButton.Image")));
-            this.gotoButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.gotoButton.Name = "gotoButton";
-            this.gotoButton.Size = new System.Drawing.Size(29, 22);
-            this.gotoButton.Text = "toolStripDropDownButton1";
-            this.gotoButton.Visible = false;
+            this.tsFiles.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tsFiles.Location = new System.Drawing.Point(175, 49);
+            this.tsFiles.Name = "tsFiles";
+            this.tsFiles.SelectedIndex = 0;
+            this.tsFiles.Size = new System.Drawing.Size(594, 258);
+            this.tsFiles.TabIndex = 7;
             // 
-            // PowerfulCSharpEditor
+            // VDSIDE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -724,17 +711,15 @@
             this.Controls.Add(this.ssMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.msMain;
-            this.Name = "PowerfulCSharpEditor";
-            this.Text = "Visual DialogScript IDE";
+            this.Name = "VDSIDE";
+            this.Text = "Visual DialogShell IDE";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PowerfulCSharpEditor_FormClosing);
             this.msMain.ResumeLayout(false);
             this.msMain.PerformLayout();
             this.ssMain.ResumeLayout(false);
             this.ssMain.PerformLayout();
             this.tsMain.ResumeLayout(false);
             this.tsMain.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tsFiles)).EndInit();
             this.cmMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvObjectExplorer)).EndInit();
             this.ResumeLayout(false);
@@ -753,7 +738,6 @@
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
         private System.Windows.Forms.StatusStrip ssMain;
         private System.Windows.Forms.ToolStrip tsMain;
-        private FarsiLibrary.Win.FATabStrip tsFiles;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.SaveFileDialog sfdMain;
@@ -800,7 +784,6 @@
         private System.Windows.Forms.ToolStripMenuItem uncommentSelectedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cloneLinesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cloneLinesAndCommentToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripButton bookmarkPlusButton;
         private System.Windows.Forms.ToolStripButton bookmarkMinusButton;
         private System.Windows.Forms.ToolStripButton btShowFoldingLines;
@@ -812,5 +795,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
         private System.Windows.Forms.ToolStripDropDownButton gotoButton;
+        private System.Windows.Forms.TabControl tsFiles;
     }
 }
