@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using FarsiLibrary.Win;
+// using FarsiLibrary.Win;
 using FastColoredTextBoxNS;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -316,18 +316,21 @@ namespace Tester
             }
         }
 
-        private void tsFiles_TabStripItemClosing(TabStripItemClosingEventArgs e)
+        
+
+        private void tsFiles_TabStripItemClosing(Control e)
         {
-            if ((e.Item.Controls[0] as FastColoredTextBox).IsChanged)
+            if ((e.Controls[0] as FastColoredTextBox).IsChanged)
             {
-                switch(MessageBox.Show("Do you want save " + e.Item.Title + " ?", "Save", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information))
+                switch(MessageBox.Show("Do you want save " + e.Text + " ?", "Save", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information))
                 {
                     case System.Windows.Forms.DialogResult.Yes:
-                        if (!Save(e.Item))
-                            e.Cancel = true;
+                        if (!Save(e))
+                              e.Text = e.Text;
+                          
                         break;
                     case DialogResult.Cancel:
-                         e.Cancel = true;
+                        e.Text = e.Text;
                         break;
                 }
             }
@@ -562,17 +565,7 @@ namespace Tester
             catch{;}
         }
 
-        private void tsFiles_TabStripItemSelectionChanged(TabStripItemChangedEventArgs e)
-        {
-            if (CurrentTB != null)
-            {
-                CurrentTB.Focus();
-                string text = CurrentTB.Text;
-                ThreadPool.QueueUserWorkItem(
-                    (o) => ReBuildObjectExplorer(text)
-                );
-            }
-        }
+
 
         private void backStripButton_Click(object sender, EventArgs e)
         {
@@ -777,7 +770,7 @@ namespace Tester
 
         private void btInvisibleChars_Click(object sender, EventArgs e)
         {
-            foreach (FATabStripItem tab in tsFiles.TabPages)
+            foreach (TabPage tab in tsFiles.TabPages)
                 HighlightInvisibleChars((tab.Controls[0] as FastColoredTextBox).Range);
             if (CurrentTB!=null)
                 CurrentTB.Invalidate();
@@ -785,7 +778,7 @@ namespace Tester
 
         private void btHighlightCurrentLine_Click(object sender, EventArgs e)
         {
-            foreach (FATabStripItem tab in tsFiles.TabPages)
+            foreach (TabPage tab in tsFiles.TabPages)
             {
                 if (btHighlightCurrentLine.Checked)
                     (tab.Controls[0] as FastColoredTextBox).CurrentLineColor = currentLineColor;
@@ -857,7 +850,7 @@ namespace Tester
 
         private void btShowFoldingLines_Click(object sender, EventArgs e)
         {
-            foreach (FATabStripItem tab in tsFiles.TabPages)
+            foreach (TabPage tab in tsFiles.TabPages)
                 (tab.Controls[0] as FastColoredTextBox).ShowFoldingLines = btShowFoldingLines.Checked;
             if (CurrentTB != null)
                 CurrentTB.Invalidate();
