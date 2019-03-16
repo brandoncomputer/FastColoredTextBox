@@ -15,7 +15,7 @@ namespace Tester
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PowerfulCSharpEditor());
+            Application.Run(new VDSIDE());
         }
     }
 }
