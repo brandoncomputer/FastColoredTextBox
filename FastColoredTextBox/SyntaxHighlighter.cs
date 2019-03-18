@@ -15,6 +15,7 @@ namespace FastColoredTextBoxNS
         public readonly Style BlueBoldStyle = new TextStyle(Brushes.Blue, null, FontStyle.Bold);
         public readonly Style BlueStyle = new TextStyle(Brushes.Blue, null, FontStyle.Regular);
         public readonly Style BoldStyle = new TextStyle(null, null, FontStyle.Bold | FontStyle.Underline);
+        public readonly Style BoldStyleNoUL= new TextStyle(null, null, FontStyle.Bold);
         public readonly Style BrownStyle = new TextStyle(Brushes.Brown, null, FontStyle.Italic);
         public readonly Style GrayStyle = new TextStyle(Brushes.Gray, null, FontStyle.Regular);
         public readonly Style GreenStyle = new TextStyle(Brushes.Green, null, FontStyle.Italic);
@@ -29,11 +30,14 @@ namespace FastColoredTextBoxNS
         protected readonly List<Style> resilientStyles = new List<Style>(5);
 
         protected Regex CSharpAttributeRegex,
-                      CSharpClassNameRegex;
+                      CSharpClassNameRegex,
+                      CSharpClassNameRegex1;
 
         protected Regex CSharpCommentRegex1,
                       CSharpCommentRegex2,
-                      CSharpCommentRegex3;
+                      CSharpCommentRegex3,
+                    CSharpCommentRegex4,
+                    CSharpCommentRegex5;
 
         protected Regex CSharpKeywordRegex;
         protected Regex CSharpNumberRegex;
@@ -598,17 +602,23 @@ namespace FastColoredTextBoxNS
                     RegexCompiledOption
                     ); //thanks to rittergig for this regex
 
-            CSharpCommentRegex1 = new Regex(@"//.*$", RegexOptions.Multiline | RegexCompiledOption);
+            CSharpCommentRegex1 = new Regex(@"#.*$", RegexOptions.Multiline | RegexCompiledOption);
             CSharpCommentRegex2 = new Regex(@"(/\*.*?\*/)|(/\*.*)", RegexOptions.Singleline | RegexCompiledOption);
             CSharpCommentRegex3 = new Regex(@"(/\*.*?\*/)|(.*\*/)",
                                             RegexOptions.Singleline | RegexOptions.RightToLeft | RegexCompiledOption);
+            CSharpCommentRegex4 = new Regex(@"//.*$", RegexOptions.Multiline | RegexCompiledOption);
+            CSharpCommentRegex5 = new Regex(@"rem.*$", RegexOptions.Multiline | RegexCompiledOption);
             CSharpNumberRegex = new Regex(@"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b",
                                           RegexCompiledOption);
             CSharpAttributeRegex = new Regex(@"^\s*(?<range>\[.+?\])\s*$", RegexOptions.Multiline | RegexCompiledOption);
-            CSharpClassNameRegex = new Regex(@"\b(add_|class|function|struct|enum|interface)\s+(?<range>\w+?)\b", RegexCompiledOption);
+
+            CSharpClassNameRegex = new Regex(@"\$(?<range>\w+)", RegexCompiledOption);
+           
+            CSharpClassNameRegex1 = new Regex(@"\b(function)\s+(?<range>\w+?)\b", RegexCompiledOption);
+
             CSharpKeywordRegex =
                 new Regex(
-                    @"\b($|add_|beep|both|chr|clipboard|clipbrd|console|count|cr|ctrl|curdir|database|datetime|dialog|differ|dirdlg|directory|div|dlgname|dlgpos|dlgprops|dlgtext|env|error|equal|esc|event|exit|exitwin|expandproperty|ext|fabs|fadd|fatn|fcos|fdiv|fexp|fieldsep|file|filedlg|fint|fln|flog|fmul|focus|font|fontdlg|format|frac|fsep|fsin|fsqt|fsub|greater|gridview|hex|htmlhelp|index|info|inifile|iniread|input|item|key|killtask|len|lf|like|link|list|lower|match|mod|mousedown|mousepos|msgbox|name|next|not|null|numeric|ok|option|parse|path|play|pos|pred|prod|property|query|random|regexists|registry|regread|retcode|run|savedlg|selected|sendmsg|shell|shift|shortname|stop|strdel|string|substr|succ|sum|sysinfo|tab|taskbar|text|the|timer|title|trace|trim|unequal|upper|val|volinfo|wait|warn|winactive|winatpoint|winclass|windir|window|winexists|winpos|wintext|zero|abstract|as|base|bool|break|byte|case|catch|char|checked|class|const|continue|decimal|default|delegate|do|double|else|enum|event|explicit|extern|false|finally|fixed|float|for|foreach|goto|if|implicit|in|int|interface|internal|is|lock|long|namespace|new|null|object|operator|out|override|params|private|protected|public|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|static|string|struct|switch|this|throw|true|try|typeof|uint|ulong|unchecked|unsafe|ushort|using|virtual|void|volatile|while|add|alias|ascending|descending|dynamic|from|get|global|group|into|join|let|orderby|partial|remove|select|set|value|var|where|yield)\b|#region\b|#endregion\b",
+                    @"\b(beep|both|chr|clipboard|clipbrd|console|count|cr|ctrl|curdir|database|datetime|dialog|differ|dirdlg|directory|div|dlgname|dlgpos|dlgprops|dlgtext|env|error|equal|esc|event|exit|exitwin|expandproperty|ext|fabs|fadd|fatn|fcos|fdiv|fexp|fieldsep|file|filedlg|fint|fln|flog|fmul|focus|font|fontdlg|format|frac|fsep|fsin|fsqt|fsub|greater|gridview|hex|htmlhelp|index|info|inifile|iniread|input|item|key|killtask|len|lf|like|link|list|lower|match|mod|mousedown|mousepos|msgbox|name|next|not|null|numeric|ok|option|parse|path|play|pos|pred|prod|property|query|random|regexists|registry|regread|retcode|run|savedlg|selected|sendmsg|shell|shift|shortname|stop|strdel|string|substr|succ|sum|sysinfo|tab|taskbar|text|the|timer|title|trace|trim|unequal|upper|val|volinfo|wait|warn|winactive|winatpoint|winclass|windir|window|winexists|winpos|wintext|zero|abstract|as|base|bool|break|byte|case|catch|char|checked|class|const|continue|decimal|default|delegate|do|double|else|enum|event|explicit|extern|false|finally|fixed|float|for|foreach|goto|if|implicit|in|int|interface|internal|is|lock|long|namespace|new|null|object|operator|out|override|params|private|protected|public|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|static|string|struct|switch|this|throw|true|try|typeof|uint|ulong|unchecked|unsafe|ushort|using|virtual|void|volatile|while|add|alias|ascending|descending|dynamic|from|get|global|group|into|join|let|orderby|partial|remove|select|set|value|var|where|yield)\b|#region\b|#endregion\b",
                     RegexCompiledOption);
         }
 
@@ -621,7 +631,7 @@ namespace FastColoredTextBoxNS
                     CommentStyle = GreenStyle;
                     NumberStyle = MagentaStyle;
                     AttributeStyle = GreenStyle;
-                    ClassNameStyle = BoldStyle;
+                    ClassNameStyle = BoldStyleNoUL;
                     KeywordStyle = BlueStyle;
                     CommentTagStyle = GrayStyle;
                     break;
@@ -713,12 +723,15 @@ namespace FastColoredTextBoxNS
             range.SetStyle(CommentStyle, CSharpCommentRegex1);
             range.SetStyle(CommentStyle, CSharpCommentRegex2);
             range.SetStyle(CommentStyle, CSharpCommentRegex3);
+            range.SetStyle(CommentStyle, CSharpCommentRegex4);
+            range.SetStyle(CommentStyle, CSharpCommentRegex5);
             //number highlighting
             range.SetStyle(NumberStyle, CSharpNumberRegex);
             //attribute highlighting
             range.SetStyle(AttributeStyle, CSharpAttributeRegex);
             //class name highlighting
             range.SetStyle(ClassNameStyle, CSharpClassNameRegex);
+            range.SetStyle(ClassNameStyle, CSharpClassNameRegex1);
             //keyword highlighting
             range.SetStyle(KeywordStyle, CSharpKeywordRegex);
 
