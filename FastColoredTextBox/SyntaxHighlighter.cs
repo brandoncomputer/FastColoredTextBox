@@ -152,6 +152,9 @@ namespace FastColoredTextBoxNS
         {
             switch (language)
             {
+                case Language.DialogShell:
+                    CSharpSyntaxHighlight(range);
+                    break;
                 case Language.CSharp:
                     CSharpSyntaxHighlight(range);
                     break;
@@ -208,6 +211,9 @@ namespace FastColoredTextBoxNS
             Language language = tb.Language;
             switch (language)
             {
+                case Language.DialogShell:
+                    CSharpAutoIndentNeeded(sender, args);
+                    break;
                 case Language.CSharp:
                     CSharpAutoIndentNeeded(sender, args);
                     break;
@@ -626,6 +632,15 @@ namespace FastColoredTextBoxNS
         {
             switch (lang)
             {
+                case Language.DialogShell:
+                    StringStyle = BrownStyle;
+                    CommentStyle = GreenStyle;
+                    NumberStyle = MagentaStyle;
+                    AttributeStyle = GreenStyle;
+                    ClassNameStyle = BoldStyleNoUL;
+                    KeywordStyle = BlueStyle;
+                    CommentTagStyle = GrayStyle;
+                    break;
                 case Language.CSharp:
                     StringStyle = BrownStyle;
                     CommentStyle = GreenStyle;
@@ -1428,6 +1443,7 @@ namespace FastColoredTextBoxNS
     public enum Language
     {
         Custom,
+        DialogShell,
         CSharp,
         VB,
         HTML,
