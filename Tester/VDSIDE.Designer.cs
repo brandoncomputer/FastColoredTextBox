@@ -697,6 +697,7 @@
             this.tsFiles.SelectedIndex = 0;
             this.tsFiles.Size = new System.Drawing.Size(594, 258);
             this.tsFiles.TabIndex = 7;
+            this.tsFiles.SelectedIndexChanged += new System.EventHandler(this.tsFiles_SelectedIndexChanged);
             // 
             // VDSIDE
             // 

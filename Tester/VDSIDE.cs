@@ -861,6 +861,11 @@ namespace Tester
             if (CurrentTB != null)
                 CurrentTB.Zoom = int.Parse((sender as ToolStripItem).Tag.ToString());
         }
+
+        private void tsFiles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 
     public class InvisibleCharsRenderer : Style
