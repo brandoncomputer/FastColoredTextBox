@@ -16,9 +16,9 @@ namespace FastColoredTextBoxNS
         public readonly Style BlueStyle = new TextStyle(Brushes.Blue, null, FontStyle.Regular);
         public readonly Style BoldStyle = new TextStyle(null, null, FontStyle.Bold | FontStyle.Underline);
         public readonly Style BoldStyleNoUL= new TextStyle(null, null, FontStyle.Bold);
-        public readonly Style BrownStyle = new TextStyle(Brushes.Brown, null, FontStyle.Italic);
+        public readonly Style BrownStyle = new TextStyle(Brushes.Brown, null, FontStyle.Regular);
         public readonly Style GrayStyle = new TextStyle(Brushes.Gray, null, FontStyle.Regular);
-        public readonly Style GreenStyle = new TextStyle(Brushes.Green, null, FontStyle.Italic);
+        public readonly Style GreenStyle = new TextStyle(Brushes.Green, null, FontStyle.Regular);
         public readonly Style MagentaStyle = new TextStyle(Brushes.Magenta, null, FontStyle.Regular);
         public readonly Style MaroonStyle = new TextStyle(Brushes.Maroon, null, FontStyle.Regular);
         public readonly Style RedStyle = new TextStyle(Brushes.Red, null, FontStyle.Regular);
@@ -633,7 +633,7 @@ namespace FastColoredTextBoxNS
             switch (lang)
             {
                 case Language.DialogShell:
-                    StringStyle = BrownStyle;
+                    StringStyle = GrayStyle;
                     CommentStyle = GreenStyle;
                     NumberStyle = MagentaStyle;
                     AttributeStyle = GreenStyle;
