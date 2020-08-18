@@ -212,7 +212,7 @@ namespace FastColoredTextBoxNS
             switch (language)
             {
                 case Language.DialogShell:
-                    CSharpAutoIndentNeeded(sender, args);
+                  //  CSharpAutoIndentNeeded(sender, args);
                     break;
                 case Language.CSharp:
                     CSharpAutoIndentNeeded(sender, args);
@@ -571,9 +571,9 @@ namespace FastColoredTextBoxNS
 
         protected void InitCShaprRegex()
         {
-            //CSharpStringRegex = new Regex( @"""""|@""""|''|@"".*?""|(?<!@)(?<range>"".*?[^\\]"")|'.*?[^\\]'", RegexCompiledOption);
+            CSharpStringRegex = new Regex( @"""""|@""""|''|@"".*?""|(?<!@)(?<range>"".*?[^\\]"")|'.*?[^\\]'", RegexCompiledOption);
 
-            CSharpStringRegex =
+         /*   CSharpStringRegex =
                 new Regex(
                     @"
                             # Character definitions:
@@ -606,13 +606,13 @@ namespace FastColoredTextBoxNS
                         ",
                     RegexOptions.ExplicitCapture | RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace |
                     RegexCompiledOption
-                    ); //thanks to rittergig for this regex
+                    ); */ //thanks to rittergig for this regex
 
             CSharpCommentRegex1 = new Regex(@"#.*$", RegexOptions.Multiline | RegexCompiledOption);
-            CSharpCommentRegex2 = new Regex(@"(/\*.*?\*/)|(/\*.*)", RegexOptions.Singleline | RegexCompiledOption);
-            CSharpCommentRegex3 = new Regex(@"(/\*.*?\*/)|(.*\*/)",
+            CSharpCommentRegex2 = new Regex(pattern: @"(/<\#[\s\S]*?\#\>/)|([^:]|^)\#.*$", options: RegexOptions.Multiline | RegexCompiledOption);
+            CSharpCommentRegex3 = new Regex(@"(/\#.*?\#/)|(.*\#/)",
                                             RegexOptions.Singleline | RegexOptions.RightToLeft | RegexCompiledOption);
-            CSharpCommentRegex4 = new Regex(@"//.*$", RegexOptions.Multiline | RegexCompiledOption);
+            CSharpCommentRegex4 = new Regex(@"<\#.*$", RegexOptions.Multiline | RegexCompiledOption);
             CSharpCommentRegex5 = new Regex(@"rem.*$", RegexOptions.Multiline | RegexCompiledOption);
             CSharpNumberRegex = new Regex(@"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b",
                                           RegexCompiledOption);
@@ -624,7 +624,7 @@ namespace FastColoredTextBoxNS
 
             CSharpKeywordRegex =
                 new Regex(
-                    @"\b(abs|alt|asc|ask|beep|both|chr|clipboard|clipbrd|colordlg|console|count|cr|ctrl|curdir|database|datetime|dialog|differ|dirdlg|directory|div|dlgname|dlgpos|dlgprops|dlgtext|env|equal|error|esc|event|exit|exitwin|expandproperty|ext|fabs|fadd|fatn|fcos|fdiv|fexp|fieldsep|file|filedlg|fint|fln|flog|fmul|focus|font|fontdlg|format|frac|fsep|fsin|fsqt|fsub|greater|gridview|hex|htmlhelp|index|info|inifile|iniread|input|item|items|key|killtask|len|lf|like|link|list|lower|match|mod|mousedown|mousepos|msgbox|name|next|not|null|numeric|ok|option|parse|path|play|pos|pred|presentation|prod|property|query|random|regexists|registry|regread|regtype|retcode|run|savedlg|selected|sendmsg|shell|shift|shortname|stop|strdel|string|substr|succ|sum|sysinfo|tab|taskbar|text|the|timer|title|trace|trim|unequal|upper|val|volinfo|wait|warn|winactive|winatpoint|winclass|windir|window|winexists|winpos|wintext|zero|abstract|as|base|bool|break|byte|case|catch|char|checked|class|const|continue|decimal|default|delegate|do|double|else|enum|event|explicit|extern|false|finally|fixed|float|for|foreach|goto|if|implicit|in|int|interface|internal|is|lock|long|namespace|new|null|object|operator|out|override|params|private|protected|public|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|static|string|struct|switch|this|throw|true|try|typeof|uint|ulong|unchecked|unsafe|ushort|using|virtual|void|volatile|while|add|alias|ascending|descending|dynamic|from|get|global|group|into|join|let|orderby|partial|remove|select|set|value|var|where|yield)\b|#region\b|#endregion\b",
+                    @"\b(abs|alt|asc|ask|beep|both|chr|clipboard|clipbrd|color|colordlg|console|count|cr|ctrl|curdir|database|datetime|decrypt|dialog|differ|dirdlg|directory|div|dlgname|dlgpos|dlgprops|dlgtext|encrypt|env|equal|error|esc|eternium|event|excel|exit|exitwin|expandproperty|ext|fabs|fadd|fatn|fcos|fdiv|fexp|fieldsep|file|filedlg|fileimage|fint|fln|flog|fmul|focus|font|fontdlg|format|frac|fsep|fsin|fsqt|fsub|greater|gridview|hex|hotkey|htmlhelp|index|info|inifile|iniread|input|item|items|key|killtask|len|lf|like|link|list|loaddll|lower|match|mod|modifyfonts|module|mousedown|mousepos|msgbox|name|next|not|null|numeric|ok|option|parse|path|pineapples|play|pos|pred|presentation|prod|property|query|random|regexists|registry|regread|regtype|resource|retcode|run|savedlg|selected|sendmsg|server|shell|shift|shortname|stop|strdel|string|substr|succ|sum|sysinfo|tab|taskbar|text|the|timer|title|trace|trim|unequal|unzip|upper|val|vkey|volinfo|wait|warn|webExec|winactive|winatpoint|winchild|winclass|windir|window|winexists|winparent|winpos|winsibling|wintext|xml|zero|zip|abstract|as|base|bool|break|byte|case|catch|char|checked|class|const|continue|decimal|default|delegate|do|double|else|enum|event|explicit|extern|false|finally|fixed|float|for|foreach|goto|if|implicit|in|int|interface|internal|is|lock|long|namespace|new|null|object|operator|out|override|params|private|protected|public|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|static|string|struct|switch|this|throw|true|try|typeof|uint|ulong|unchecked|unsafe|ushort|using|virtual|void|volatile|while|add|alias|ascending|descending|dynamic|from|get|global|group|into|join|let|orderby|partial|remove|select|set|value|var|where|yield)\b|#region\b|#endregion\b",
                     RegexCompiledOption);
         }
 
@@ -715,7 +715,7 @@ namespace FastColoredTextBoxNS
         /// <param name="range"></param>
         public virtual void CSharpSyntaxHighlight(Range range)
         {
-            range.tb.CommentPrefix = "//";
+            range.tb.CommentPrefix = "#";
             range.tb.LeftBracket = '(';
             range.tb.RightBracket = ')';
             range.tb.LeftBracket2 = '{';
@@ -751,7 +751,7 @@ namespace FastColoredTextBoxNS
             range.SetStyle(KeywordStyle, CSharpKeywordRegex);
 
             //find document comments
-            foreach (Range r in range.GetRanges(@"^\s*///.*$", RegexOptions.Multiline))
+            foreach (Range r in range.GetRanges(@"^\s*#.*$", RegexOptions.Multiline))
             {
                 //remove C# highlighting from this fragment
                 r.ClearStyle(StyleIndex.All);
@@ -779,7 +779,7 @@ namespace FastColoredTextBoxNS
             //set folding markers
             range.SetFoldingMarkers("{", "}"); //allow to collapse brackets block
             range.SetFoldingMarkers(@"#region\b", @"#endregion\b"); //allow to collapse #region blocks
-            range.SetFoldingMarkers(@"/\*", @"\*/"); //allow to collapse comment block
+            range.SetFoldingMarkers(@"<\#", @"\#>"); //allow to collapse comment block
         }
 
         protected void InitVBRegex()
