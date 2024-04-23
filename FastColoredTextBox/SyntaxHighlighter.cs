@@ -15,7 +15,7 @@ namespace FastColoredTextBoxNS
         public readonly Style BlueBoldStyle = new TextStyle(Brushes.Blue, null, FontStyle.Bold);
         public readonly Style BlueStyle = new TextStyle(Brushes.Blue, null, FontStyle.Regular);
         public readonly Style BoldStyle = new TextStyle(null, null, FontStyle.Bold | FontStyle.Underline);
-        public readonly Style BoldStyleNoUL= new TextStyle(null, null, FontStyle.Bold);
+        public readonly Style BoldStyleNoUL= new TextStyle(Brushes.DarkRed, null, FontStyle.Bold);
         public readonly Style BrownStyle = new TextStyle(Brushes.Brown, null, FontStyle.Regular);
         public readonly Style GrayStyle = new TextStyle(Brushes.Gray, null, FontStyle.Regular);
         public readonly Style GreenStyle = new TextStyle(Brushes.Green, null, FontStyle.Regular);
@@ -31,13 +31,14 @@ namespace FastColoredTextBoxNS
 
         protected Regex CSharpAttributeRegex,
                       CSharpClassNameRegex,
-                      CSharpClassNameRegex1;
+                      CSharpClassNameRegex1,
+             CSharpClassNameRegex2;
 
         protected Regex CSharpCommentRegex1,
                       CSharpCommentRegex2,
                       CSharpCommentRegex3,
-                    CSharpCommentRegex4,
-                    CSharpCommentRegex5;
+                     CSharpCommentRegex4;
+                 //   CSharpCommentRegex5;
 
         protected Regex CSharpKeywordRegex;
         protected Regex CSharpNumberRegex;
@@ -609,23 +610,33 @@ namespace FastColoredTextBoxNS
                     ); */ //thanks to rittergig for this regex
 
             CSharpCommentRegex1 = new Regex(@"#.*$", RegexOptions.Multiline | RegexCompiledOption);
-            CSharpCommentRegex2 = new Regex(pattern: @"(/<\#[\s\S]*?\#\>/)|([^:]|^)\#.*$", options: RegexOptions.Multiline | RegexCompiledOption);
-            CSharpCommentRegex3 = new Regex(@"(/\#.*?\#/)|(.*\#/)",
+        //    CSharpCommentRegex2 = new Regex(pattern: @"(/<\#[\s\S]*$\#\>/)|([^:]|^)\#.*$", options: RegexOptions.Multiline | RegexCompiledOption);
+            //    CSharpCommentRegex2 = new Regex(pattern: @"(/<\#[*]*$\#\>/)|([^:]|^)\#.*$", options: RegexOptions.Multiline | RegexCompiledOption | RegexOptions.IgnorePatternWhitespace);
+
+
+          //  CSharpCommentRegex2 = new Regex(@"<\#((?:.*\r?\n?)*)\#>", RegexOptions.Multiline | RegexCompiledOption);
+            CSharpCommentRegex2 = new Regex(@"(<\#(.*))+", RegexOptions.Multiline | RegexCompiledOption);
+
+           CSharpCommentRegex3 = new Regex(@"(/\#.*?\#/)|(.*\#/)",
                                             RegexOptions.Singleline | RegexOptions.RightToLeft | RegexCompiledOption);
-            CSharpCommentRegex4 = new Regex(@"<\#.*$", RegexOptions.Multiline | RegexCompiledOption);
-            CSharpCommentRegex5 = new Regex(@"rem.*$", RegexOptions.Multiline | RegexCompiledOption);
+            //  CSharpCommentRegex4 = new Regex(@"<\#.*$", RegexOptions.Multiline | RegexCompiledOption);
+            CSharpCommentRegex4 = new Regex(@"(<\#(.*))+", RegexOptions.Multiline | RegexCompiledOption);
+            //  CSharpCommentRegex5 = new Regex(@"rem.*$", RegexOptions.Multiline | RegexCompiledOption);
             CSharpNumberRegex = new Regex(@"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b",
                                           RegexCompiledOption);
             CSharpAttributeRegex = new Regex(@"^\s*(?<range>\[.+?\])\s*$", RegexOptions.Multiline | RegexCompiledOption);
 
-            CSharpClassNameRegex = new Regex(@"\$(?<range>\w+)", RegexCompiledOption);
-           
+            //CSharpClassNameRegex = new Regex(@"\$(?<range>\w+)", RegexCompiledOption);
+              CSharpClassNameRegex = new Regex(@"\$(?<range>\w+)", RegexCompiledOption);
+            CSharpClassNameRegex2 = new Regex(@"(\$)", RegexCompiledOption);
+
+
+
             CSharpClassNameRegex1 = new Regex(@"\b(function)\s+(?<range>\w+?)\b", RegexCompiledOption);
 
             CSharpKeywordRegex =
                 new Regex(
-                    @"\b(abs|alt|asc|ask|beep|both|chr|clipboard|clipbrd|color|colordlg|console|count|cr|ctrl|curdir|database|datetime|decrypt|dialog|differ|dirdlg|directory|div|dlgname|dlgpos|dlgprops|dlgtext|encrypt|env|equal|error|esc|eternium|event|excel|exit|exitwin|expandproperty|ext|fabs|fadd|fatn|fcos|fdiv|fexp|fieldsep|file|filedlg|fileimage|fint|fln|flog|fmul|focus|font|fontdlg|format|frac|fsep|fsin|fsqt|fsub|greater|gridview|hex|hotkey|htmlhelp|index|info|inifile|iniread|input|item|items|key|killtask|len|lf|like|link|list|loaddll|lower|match|mod|modifyfonts|module|mousedown|mousepos|msgbox|name|next|not|null|numeric|ok|option|parse|path|pineapples|play|pos|pred|presentation|prod|property|query|random|regexists|registry|regread|regtype|resource|retcode|run|savedlg|selected|sendmsg|server|shell|shift|shortname|stop|strdel|string|substr|succ|sum|sysinfo|tab|taskbar|text|the|timer|title|trace|trim|unequal|unzip|upper|val|vkey|volinfo|wait|warn|webExec|winactive|winatpoint|winchild|winclass|windir|window|winexists|winparent|winpos|winsibling|wintext|xml|zero|zip|abstract|as|base|bool|break|byte|case|catch|char|checked|class|const|continue|decimal|default|delegate|do|double|else|enum|event|explicit|extern|false|finally|fixed|float|for|foreach|goto|if|implicit|in|int|interface|internal|is|lock|long|namespace|new|null|object|operator|out|override|params|private|protected|public|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|static|string|struct|switch|this|throw|true|try|typeof|uint|ulong|unchecked|unsafe|ushort|using|virtual|void|volatile|while|add|alias|ascending|descending|dynamic|from|get|global|group|into|join|let|orderby|partial|remove|select|set|value|var|where|yield)\b|#region\b|#endregion\b",
-                    RegexCompiledOption);
+                    @"\b(Set-Types|Set-EnableVisualStyle|Set-DPIAware|Show-Form|Update-ErrorLog|Get-CurrentDirectory|ConvertFrom-WinFormsXML|CustomFunctions|Open-FormFromFBS|New-Timer|Set-CurrentDirectory|Get-Abs|Get-Arctangent|Get-Cosine|Get-Exponent|Get-Log|Get-Fractional|Get-Sine|Get-SquareRoot|Set-ActiveWindow|Send-Window|Add-Alt|Add-Shift|Add-CTRL|Add-Tab|Get-Ascii|Get-Character|Get-Key|Get-Escape|Get-CarriageReturn|Get-LineFeed|Set-Format|Get-Hex|Get-Innertext|Set-Innertext|Get-TextPosition|Get-SubString|Get-StringRemove|ConvertTo-String|Show-InformationDialog|Show-Warning|Get-InputBox|Get-OKCancelDialog|Get-Answer|New-Beep|New-Sound|Clear-Clipboard|Get-ColorByName|Get-ColorByRGB|Show-ColorDialog|Show-FolderBrowserDialog|Show-OpenFileDialog|Show-SaveFileDialog|Show-FontDialog|Read-CSV|Write-CSV|Initialize-ODBC|Open-DataSourceName|Close-DataSourceName|Get-DataTables|ConvertTo-DateTime|Protect-Secret|Unprotect-Secret|Get-WebFile|Get-ImageFromStream|Get-ImageFromFile|New-Form|Add-CommonControl|Add-StatusStrip|Add-MenuStrip|Add-ContextMenuStrip|Add-ContextMenuStripItem|Add-MenuColumn|Add-MenuRow|Add-MenuColumnSeperator|Add-ContextMenuStripSeperator|Add-ToolStripSeperator|New-Taskicon|Add-ToolStrip|Add-ToolStripItem|Set-ObjectPosition|Get-ObjectPosition|Get-Focus|Set-Focus|Set-Hotkey|Get-VirtualKey|Send-KeyPress|New-SendMessage|New-ShellVerb|New-Folder|Remove-Folder|Rename-Folder|Get-WindowsDirectory|Get-SystemDirectory|Get-EnvironmentVariable|Get-ExitCode|Set-ExitCode|Get-Event|Get-OK|Initialize-Excel|Show-Excel|Hide-Excel|Add-ExcelWorkbook|Add-ExcelWorksheet|Open-ExcelWorkbook|Save-ExcelWorkbook|Select-ExcelSheet|Set-ExcelCell|Get-ExcelCell|Remove-ExcelColumn|Remove-ExcelRow|New-ExcelColumn|New-ExcelRow|Get-ExcelColumnCount|Get-ExcelRowCount|Get-FileName|Get-FilePath|Get-FileExtension|Get-FileShortname|Copy-File|Move-File|Remove-File|Rename-File|Set-FileAttribute|Test-File|Show-HTMLHelp|Write-InitializationFile|Read-InitializationFile|New-ShortCut|Assert-List|Find-ListMatch|Step-ListNext|Get-ListText|Open-DynamicLinkLibrary|Add-Font|Remove-Font|Get-MouseButtonDown|Get-MousePosition|Assert-WPF|Assert-WPFCreate|Assert-WPFAddControl|Assert-WPFInsertControl|Assert-WPFGetControlByName|Assert-WPFValign|Assert-WPFHAlign|Get-RegistryExists|Copy-RegistryKey|Remove-RegistryKey|Move-RegistryKey|Rename-RegistryKey|New-RegistryKey|New-RegistryValue|Set-RegistryValue|Rename-RegistryValue|Remove-RegistryValue|Get-RegistryValue|Get-RegistryType|Get-ScreenVirtualHeight|Get-ScreenVirtualWidth|Get-ScreenScale|Initialize-Selenium|Open-SeleniumURL|Get-SeleniumElementByAttribute|Get-SeleniumElementByXPath|Send-SeleniumElementByAttribute|Send-SeleniumElementByXPath|Send-ClickToSeleniumElementByAttribute|Send-ClickToSeleniumElementByXPath|Stop-Selenium|Start-WebServer|Stop-WebServer|Get-WebServerContext|Get-WebServerLocalPath|Set-WebServerResponse|Get-FreeMemory|Get-ScreenHeight|Get-ScreenWidth|Get-WindowsVersion|Get-OSWordSize|Get-PowerShellVersion|Get-VisualDesignerShellVersion|Get-BootTime|Get-SystemLanguage|Show-TaskBar|Hide-TaskBar|Get-ActiveWindow|Get-WindowFromPoint|Get-ChildWindow|Get-WindowClass|Move-Window|Get-WindowPosition|Send-ClickToWindow|Send-RightClickToWindow|Close-Window|Set-FlashWindow|Set-WindowParent|Hide-Window|Show-Window|Compress-Window|Expand-Window|Set-WindowOnTop|Set-WindowNotOnTop|Set-WindowText|Get-WindowExists|Get-WindowParent|Get-WindowSibling|Get-WindowText|EndCustomFunctions|A:|B:|C:|cd..|cd\|Clear-Host|Compress-Archive|Configuration|ConvertFrom-SddlString|D:|Disable-DscDebug|Disable-NetworkSwitchEthernetPort|Disable-NetworkSwitchFeature|Disable-NetworkSwitchVlan|Disable-PSTrace|Disable-PSWSManCombinedTrace|Disable-WSManTrace|E:|Enable-DscDebug|Enable-NetworkSwitchEthernetPort|Enable-NetworkSwitchFeature|Enable-NetworkSwitchVlan|Enable-PSTrace|Enable-PSWSManCombinedTrace|Enable-WSManTrace|Expand-Archive|Export-ODataEndpointProxy|F:|Find-Command|Find-DscResource|Find-Module|Find-RoleCapability|Find-Script|Format-Hex|G:|Get-DscConfiguration|Get-DscConfigurationStatus|Get-DscLocalConfigurationManager|Get-DscResource|Get-FileHash|Get-InstalledModule|Get-InstalledScript|Get-IseSnippet|Get-LogProperties|Get-NetworkSwitchEthernetPort|Get-NetworkSwitchFeature|Get-NetworkSwitchGlobalData|Get-NetworkSwitchVlan|Get-PSRepository|Get-Verb|H:|help|I:|Import-IseSnippet|Import-PowerShellDataFile|ImportSystemModules|Install-Module|Install-Script|Invoke-AsWorkflow|J:|K:|L:|M:|mkdir|more|N:|New-DscChecksum|New-Guid|New-IseSnippet|New-NetworkSwitchVlan|New-PSWorkflowSession|New-ScriptFileInfo|New-TemporaryFile|O:|oss|P:|Pause|powershell-designer|prompt|Publish-Module|Publish-Script|Q:|R:|Register-PSRepository|Remove-DscConfigurationDocument|Remove-NetworkSwitchEthernetPortIPAddress|Remove-NetworkSwitchVlan|Restore-DscConfiguration|Restore-NetworkSwitchConfiguration|S:|Save-Module|Save-NetworkSwitchConfiguration|Save-Script|Set-LogProperties|Set-NetworkSwitchEthernetPortIPAddress|Set-NetworkSwitchPortMode|Set-NetworkSwitchPortProperty|Set-NetworkSwitchVlanProperty|Set-PSRepository|Start-Trace|Stop-DscConfiguration|Stop-Trace|T:|TabExpansion2|Test-ScriptFileInfo|U:|Uninstall-Module|Uninstall-Script|Unregister-PSRepository|Update-DscConfiguration|Update-Module|Update-ModuleManifest|Update-Script|Update-ScriptFileInfo|V:|W:|X:|Y:|Z:|Add-BitsFile|Add-Computer|Add-Content|Add-History|Add-JobTrigger|Add-LocalGroupMember|Add-Member|Add-PSSnapin|Add-Type|Checkpoint-Computer|Clear-Content|Clear-EventLog|Clear-History|Clear-Item|Clear-ItemProperty|Clear-Recyclebin|Clear-Variable|Compare-Object|Complete-BitsTransfer|Complete-Transaction|Connect-PSSession|Connect-WSMan|ConvertFrom-Csv|ConvertFrom-Json|ConvertFrom-SecureString|ConvertFrom-String|ConvertFrom-StringData|Convert-Path|Convert-String|ConvertTo-Csv|ConvertTo-Html|ConvertTo-Json|ConvertTo-SecureString|ConvertTo-Xml|Copy-Item|Copy-ItemProperty|Debug-Job|Debug-Process|Debug-Runspace|Disable-ComputerRestore|Disable-JobTrigger|Disable-LocalUser|Disable-PSBreakpoint|Disable-PSRemoting|Disable-PSSessionConfiguration|Disable-RunspaceDebug|Disable-ScheduledJob|Disable-WSManCredSSP|Disconnect-PSSession|Disconnect-WSMan|Enable-ComputerRestore|Enable-JobTrigger|Enable-LocalUser|Enable-PSBreakpoint|Enable-PSRemoting|Enable-PSSessionConfiguration|Enable-RunspaceDebug|Enable-ScheduledJob|Enable-WSManCredSSP|Enter-PSHostProcess|Enter-PSSession|Exit-PSHostProcess|Exit-PSSession|Export-Alias|Export-BinaryMiLog|Export-Clixml|Export-Console|Export-Counter|Export-Csv|Export-FormatData|Export-ModuleMember|Export-PSSession|Find-Package|Find-PackageProvider|ForEach-Object|Format-Custom|Format-List|Format-Table|Format-Wide|Get-Acl|Get-Alias|Get-AuthenticodeSignature|Get-BitsTransfer|Get-ChildItem|Get-CimAssociatedInstance|Get-CimClass|Get-CimInstance|Get-CimSession|Get-Clipboard|Get-CmsMessage|Get-Command|Get-ComputerInfo|Get-ComputerRestorePoint|Get-Content|Get-ControlPanelItem|Get-Counter|Get-Credential|Get-Culture|Get-Date|Get-Event|Get-EventLog|Get-EventSubscriber|Get-ExecutionPolicy|Get-FormatData|Get-Help|Get-History|Get-Host|Get-HotFix|Get-Item|Get-ItemProperty|Get-ItemPropertyValue|Get-Job|Get-JobTrigger|Get-LocalGroup|Get-LocalGroupMember|Get-LocalUser|Get-Location|Get-Member|Get-Module|Get-Package|Get-PackageProvider|Get-PackageSource|Get-PfxCertificate|Get-Process|Get-PSBreakpoint|Get-PSCallStack|Get-PSDrive|Get-PSHostProcessInfo|Get-PSProvider|Get-PSSession|Get-PSSessionCapability|Get-PSSessionConfiguration|Get-PSSnapin|Get-Random|Get-Runspace|Get-RunspaceDebug|Get-ScheduledJob|Get-ScheduledJobOption|Get-Service|Get-TimeZone|Get-TraceSource|Get-Transaction|Get-TroubleshootingPack|Get-TypeData|Get-UICulture|Get-Unique|Get-Variable|Get-WinEvent|Get-WmiObject|Get-WSManCredSSP|Get-WSManInstance|Group-Object|Import-Alias|Import-BinaryMiLog|Import-Clixml|Import-Counter|Import-Csv|Import-LocalizedData|Import-Module|Import-PackageProvider|Import-PSSession|Install-Package|Install-PackageProvider|Invoke-CimMethod|Invoke-Command|Invoke-DscResource|Invoke-Expression|Invoke-History|Invoke-Item|Invoke-RestMethod|Invoke-TroubleshootingPack|Invoke-WebRequest|Invoke-WmiMethod|Invoke-WSManAction|Join-Path|Limit-EventLog|Measure-Command|Measure-Object|Move-Item|Move-ItemProperty|New-Alias|New-CimInstance|New-CimSession|New-CimSessionOption|New-Event|New-EventLog|New-FileCatalog|New-Item|New-ItemProperty|New-JobTrigger|New-LocalGroup|New-LocalUser|New-Module|New-ModuleManifest|New-Object|New-PSDrive|New-PSRoleCapabilityFile|New-PSSession|New-PSSessionConfigurationFile|New-PSSessionOption|New-PSTransportOption|New-PSWorkflowExecutionOption|New-ScheduledJobOption|New-Service|New-TimeSpan|New-Variable|New-WebServiceProxy|New-WinEvent|New-WSManInstance|New-WSManSessionOption|Out-Default|Out-File|Out-GridView|Out-Host|Out-Null|Out-Printer|Out-String|Pop-Location|Protect-CmsMessage|Publish-DscConfiguration|Push-Location|Read-Host|Receive-Job|Receive-PSSession|Register-ArgumentCompleter|Register-CimIndicationEvent|Register-EngineEvent|Register-ObjectEvent|Register-PackageSource|Register-PSSessionConfiguration|Register-ScheduledJob|Register-WmiEvent|Remove-BitsTransfer|Remove-CimInstance|Remove-CimSession|Remove-Computer|Remove-Event|Remove-EventLog|Remove-Item|Remove-ItemProperty|Remove-Job|Remove-JobTrigger|Remove-LocalGroup|Remove-LocalGroupMember|Remove-LocalUser|Remove-Module|Remove-PSBreakpoint|Remove-PSDrive|Remove-PSSession|Remove-PSSnapin|Remove-TypeData|Remove-Variable|Remove-WmiObject|Remove-WSManInstance|Rename-Computer|Rename-Item|Rename-ItemProperty|Rename-LocalGroup|Rename-LocalUser|Reset-ComputerMachinePassword|Resolve-Path|Restart-Computer|Restart-Service|Restore-Computer|Resume-BitsTransfer|Resume-Job|Resume-Service|Save-Help|Save-Package|Select-Object|Select-String|Select-Xml|Send-MailMessage|Set-Acl|Set-Alias|Set-AuthenticodeSignature|Set-BitsTransfer|Set-CimInstance|Set-Clipboard|Set-Content|Set-Date|Set-DscLocalConfigurationManager|Set-ExecutionPolicy|Set-Item|Set-ItemProperty|Set-JobTrigger|Set-LocalGroup|Set-LocalUser|Set-Location|Set-PackageSource|Set-PSBreakpoint|Set-PSDebug|Set-PSSessionConfiguration|Set-ScheduledJob|Set-ScheduledJobOption|Set-Service|Set-StrictMode|Set-TimeZone|Set-TraceSource|Set-Variable|Set-WmiInstance|Set-WSManInstance|Set-WSManQuickConfig|Show-Command|Show-ControlPanelItem|Show-EventLog|Sort-Object|Split-Path|Start-BitsTransfer|Start-DscConfiguration|Start-Job|Start-Process|Start-Service|Start-Sleep|Start-Transaction|Start-Transcript|Stop-Computer|Stop-Job|Stop-Process|Stop-Service|Stop-Transcript|Suspend-BitsTransfer|Suspend-Job|Suspend-Service|Tee-Object|Test-ComputerSecureChannel|Test-Connection|Test-DscConfiguration|Test-FileCatalog|Test-ModuleManifest|Test-Path|Test-PSSessionConfigurationFile|Test-WSMan|Trace-Command|Unblock-File|Undo-Transaction|Uninstall-Package|Unprotect-CmsMessage|Unregister-Event|Unregister-PackageSource|Unregister-PSSessionConfiguration|Unregister-ScheduledJob|Update-FormatData|Update-Help|Update-List|Update-TypeData|Use-Transaction|Wait-Debugger|Wait-Event|Wait-Job|Wait-Process|Where-Object|Write-Debug|Write-Error|Write-EventLog|Write-Host|Write-Information|Write-Output|Write-Progress|Write-Verbose|Write-Warning)\b|#region\b|#endregion\b", RegexOptions.IgnoreCase | RegexCompiledOption);
         }
 
         public void InitStyleSchema(Language lang)
@@ -643,6 +654,7 @@ namespace FastColoredTextBoxNS
                     break;
                 case Language.CSharp:
                     StringStyle = BrownStyle;
+                    VariableStyle = MaroonStyle;
                     CommentStyle = GreenStyle;
                     NumberStyle = MagentaStyle;
                     AttributeStyle = GreenStyle;
@@ -738,15 +750,16 @@ namespace FastColoredTextBoxNS
             range.SetStyle(CommentStyle, CSharpCommentRegex1);
             range.SetStyle(CommentStyle, CSharpCommentRegex2);
             range.SetStyle(CommentStyle, CSharpCommentRegex3);
-            range.SetStyle(CommentStyle, CSharpCommentRegex4);
-            range.SetStyle(CommentStyle, CSharpCommentRegex5);
+             range.SetStyle(CommentStyle, CSharpCommentRegex4);
+          //  range.SetStyle(CommentStyle, CSharpCommentRegex5);
             //number highlighting
             range.SetStyle(NumberStyle, CSharpNumberRegex);
             //attribute highlighting
             range.SetStyle(AttributeStyle, CSharpAttributeRegex);
             //class name highlighting
             range.SetStyle(ClassNameStyle, CSharpClassNameRegex);
-            range.SetStyle(ClassNameStyle, CSharpClassNameRegex1);
+            range.SetStyle(KeywordStyle, CSharpClassNameRegex1);
+            range.SetStyle(ClassNameStyle, CSharpClassNameRegex2);
             //keyword highlighting
             range.SetStyle(KeywordStyle, CSharpKeywordRegex);
 
