@@ -66,7 +66,7 @@ namespace FastColoredTextBoxNS
                     FindNext(pattern);
                     return;
                 }
-                MessageBox.Show("Not found");
+            //    MessageBox.Show("Not found");
             }
             catch (Exception ex)
             {
