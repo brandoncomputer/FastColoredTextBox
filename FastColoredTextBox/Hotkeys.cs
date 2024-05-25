@@ -91,6 +91,7 @@ namespace FastColoredTextBoxNS
             this[KEYS.Control | KEYS.Subtract] = FCTBAction.ZoomOut;
             this[KEYS.Control | KEYS.Add] = FCTBAction.ZoomIn;
             this[KEYS.Control | KEYS.D0] = FCTBAction.ZoomNormal;
+            this[KEYS.Control | KEYS.NumPad0] = FCTBAction.ZoomNormal;
             this[KEYS.Control | KEYS.I] = FCTBAction.AutoIndentChars;   
         }
 
